@@ -1,3 +1,6 @@
+뭐부터 해야되지
+이게뭐야 너무어려워~~~
+
 <<<<<<< Updated upstream
 KARI_ISEB
 ==========
