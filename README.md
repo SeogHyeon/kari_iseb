@@ -1,6 +1,8 @@
 #[사용법]
 g++ -c library/RSCodec/CReedSolomon.h library/RSCodec/CReedSolomon.cpp
+
 g++ -o LRIT_process LRIT_process.cpp CReedSolomon.o 
+
 ./LRIT_process
 
 
