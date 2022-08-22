@@ -20,6 +20,11 @@ g++ -o LRIT_process LRIT_process.cpp CReedSolomon.o
 
 3. rs decoding 20220823 석현 updated!
 
+# 메모
+
+- vscode로 여러 파일 동시에 컴파일하고 돌리는 방법을 모르겠어용,,, 그냥 우분투 터미널에서 돌리는중~
+
+
 
 <<<<<<< Updated upstream
 KARI_ISEB
