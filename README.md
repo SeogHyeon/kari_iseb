@@ -1,10 +1,8 @@
-<<<<<<< HEAD
+
 # [사용법]
 
 cd로 lib 폴더 들어가서
-=======
-#[사용법]
->>>>>>> 73ac3e680fe3f99796c9587944f901d987f37b55
+
 
 g++ -c library/RSCodec/CReedSolomon.h library/RSCodec/CReedSolomon.cpp
 
