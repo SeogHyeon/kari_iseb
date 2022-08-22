@@ -1,10 +1,10 @@
-#[사용법]
+# [사용법]
 g++ -c library/RSCodec/CReedSolomon.h library/RSCodec/CReedSolomon.cpp
 g++ -o LRIT_process LRIT_process.cpp CReedSolomon.o 
 ./LRIT_process
 
 
-#어디까지했냐?
+# 어디까지했냐?
 1. cadu 읽기 20220823 석현 updated!
 2. derandomization 20220823 석현 updated!
 3. rs decoding 20220823 석현 updated!
