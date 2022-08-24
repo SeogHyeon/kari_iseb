@@ -80,8 +80,28 @@ void rsdecode(unsigned char* buffer, long size) {
     for (long i=0;i<size/1024;i++){
         rs.Decode(buffer+i*1024);
     }
-    cout<<"RS Decoding complete"
+    cout<<"RS Decoding complete"<<endl;
 }
+
+vector<int> vecslice(vector<int> vec, int a, int b) { //vector slicing 하는 함수
+    return vector<int>(vec.begin() + a, vec.begin() + b);
+}
+
+void vcid_classification(vector <unsigned char> &buffer_all, vector <unsigned char> &buffer_0,vector <unsigned char> &buffer_5){
+    cout<<buffer_all.size()<<endl;
+    unsigned char vcid;
+    for(int i=0;i<buffer_all.size()/1024;i++){
+        vcid=(buffer_all[i*1024+5]<<2);
+        vcid=vcid>>2;
+        if(vcid==0){
+            buffer_0.insert(buffer_0.end(),buffer_all.begin()+i*1024+10,buffer_all.begin()+i*1024+896); //sync marker, vcdu primary header 제거
+        }
+        else if(vcid==5){
+            buffer_5.insert(buffer_5.end(),buffer_all.begin()+i*1024+10,buffer_all.begin()+i*1024+896); //sync marker, vcdu primary header 제거
+        }
+    }
+}
+
 
 
 
@@ -97,19 +117,22 @@ int main(){
     
     rsdecode(buffer,size);
 
-    vector<unsigned char> vec_buffer(buffer, buffer+size);
-    //std::vector<int> dest(src, src + n);
+    vector<unsigned char> vec_buffer(buffer, buffer+size); // 내용 편집 쉽도록 array -> vector 변환
 
-    for (int i;i<8;i++) {
-        std::cout << vec_buffer[i] << endl;
-    }
+    vector<unsigned char> vec_vcid5;
+    vector<unsigned char> vec_vcid0;
+    
+
+    vcid_classification(vec_buffer,vec_vcid0,vec_vcid5);
+
+    unsigned char* a = &vec_vcid0[0];//vcid=0 인 경우 프린트 하기 위해 array로 다시 변환
 
 
 
 
     ofstream file("output.lrit");
 	if(file.is_open()) {
-		file.write((char *)buffer,size);
+		file.write((char *)a,size);
         file.close();
 	}
 
