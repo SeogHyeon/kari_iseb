@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <algorithm> // std::copy
+#include <vector>
 #include "library/RSCodec/CReedSolomon.h"
 
 using namespace std;
@@ -64,10 +65,10 @@ void derandomization(unsigned char* buffer, long size){
     0x08, 0x78, 0xc4, 0x4a, 0x66, 0xf5, 0x58
     };
     for (long i=0;i<size/1024;i++){
-            for(int j=0;j<1020;j++){
-                buffer[i*1024+j+4] ^= pn[j % 255];
-            }
+        for(int j=0;j<1020;j++){
+            buffer[i*1024+j+4] ^= pn[j % 255];
         }
+    }
     cout<<"derandomization complete"<<endl;
 
 }
@@ -79,10 +80,10 @@ void rsdecode(unsigned char* buffer, long size) {
     for (long i=0;i<size/1024;i++){
         rs.Decode(buffer+i*1024);
     }
-
     cout<<"RS Decoding complete"
-	
 }
+
+
 
 int main(){
     string cadu_path="cadu_img/lrit_img.cadu";
@@ -95,6 +96,13 @@ int main(){
     derandomization(buffer,size);
     
     rsdecode(buffer,size);
+
+    vector<unsigned char> vec_buffer(buffer, buffer+size);
+    //std::vector<int> dest(src, src + n);
+
+    for (int i;i<8;i++) {
+        std::cout << vec_buffer[i] << endl;
+    }
 
 
 
