@@ -28,7 +28,7 @@ unsigned char* read_cadu(string file_path, int& _size) {
     }
 }
 
-void derandomization(string file_path, unsigned char* buffer, long size){
+void derandomization(unsigned char* buffer, long size){
     unsigned char pn[255] = {
     0xff, 0x48, 0x0e, 0xc0, 0x9a, 0x0d, 0x70, 0xbc,
     0x8e, 0x2c, 0x93, 0xad, 0xa7, 0xb7, 0x46, 0xce,
@@ -68,53 +68,35 @@ void derandomization(string file_path, unsigned char* buffer, long size){
                 buffer[i*1024+j+4] ^= pn[j % 255];
             }
         }
-    cout<<"derandomization finished"<<endl;
+    cout<<"derandomization complete"<<endl;
 
 }
 
-void rsdecode(unsigned char* buffer) {
-	CReedSolomon rsCodec;
-	rsCodec.init(8, 16, 112, 11, 0, 4, 4, 1);
-    rsCodec.Decode(buffer);
-/*
+void rsdecode(unsigned char* buffer, long size) {
+	CReedSolomon rs;
+	rs.init(8, 16, 112, 11, 0, 4, 4, 1);
+    
     for (long i=0;i<size/1024;i++){
-        unsigned char* temp;
-        copy(buffer+i*1024,buffer+i*1024+1024,temp);
-        rsCodec.Decode(temp);
-        copy(temp,temp+1024,buffer+i*1024);
-
-
+        rs.Decode(buffer+i*1024);
     }
-	*/
+
+    cout<<"RS Decoding complete"
+	
 }
 
 int main(){
     string cadu_path="cadu_img/lrit_img.cadu";
-    string pn_path="library/pn/pn.txt";
-
 
     int size;
 	unsigned char* buffer = read_cadu(cadu_path,size);
 
 
 
-    derandomization(pn_path,buffer,size);
-
-    int temp_size=size;
-    unsigned char* temp_buffer=buffer;
-
-
-    while (size >= 1024) {
-		unsigned char* temp = buffer;
-		rsdecode(buffer);
+    derandomization(buffer,size);
+    
+    rsdecode(buffer,size);
 
 
-		size -= 1024;
-		buffer = temp + 1024;
-	}
-    size=temp_size;
-    buffer=temp_buffer;
-    cout<<"RS decoding finished"<<endl;
 
 
     ofstream file("output.lrit");
