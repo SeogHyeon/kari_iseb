@@ -77,7 +77,7 @@ void rsdecode(unsigned char* buffer, long size) {
 	CReedSolomon rs;
 	rs.init(8, 16, 112, 11, 0, 4, 4, 1);
     
-    for (long i=0;i<size/1024;i++){
+    for (long i=0;i<size/1024;i++){//1024바이트씩(unsigned char는 1개에 1byte) 건너뛰며 decoding
         rs.Decode(buffer+i*1024);
     }
     cout<<"RS Decoding complete"<<endl;
@@ -93,7 +93,7 @@ void vcid_classification(vector <unsigned char> &buffer_all, vector <unsigned ch
     for(int i=0;i<buffer_all.size()/1024;i++){
         vcid=(buffer_all[i*1024+5]<<2);
         vcid=vcid>>2;
-        if(vcid==0){
+        if(vcid==0){//buffer_0 vector의 끝부분에 vcid=0인 부분 이어 붙이기
             buffer_0.insert(buffer_0.end(),buffer_all.begin()+i*1024+10,buffer_all.begin()+i*1024+896); //sync marker, vcdu primary header 제거
         }
         else if(vcid==5){
